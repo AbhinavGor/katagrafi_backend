@@ -33,6 +33,17 @@ const userSchema = mongoose.Schema({
 
 });
 
+userSchema.methods.generateToken = async () => {
+    const foundUser = this;
+    const token = jwt.sign({ _id: foundUser._id.toString(), userType: foundUser.userType.toString()}, process.env.SESSION_SECRET);
+
+    foundUser.tokens = foundUser.tokens.concat({ token });
+
+    await foundUser.save();
+
+    return token;
+}
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

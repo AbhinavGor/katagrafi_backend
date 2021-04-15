@@ -5,6 +5,11 @@ const cors = require('cors');
 const session = require('express-session');
 const mongoose =  require('mongoose');
 
+//routers import
+const userRouter = require('./routers/userRoutes');
+const inventoryRouter = require('./routers/inventoryRoutes');
+const groupRouter = require('./routers/groupRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -37,7 +42,14 @@ mongoose.connect(process.env.MONGO_URI, {
 //basic route
 app.get("/", (req, res) => {
     res.send("Katagrafi Backend")
-})
+});
+
+//Routers setup
+app.use('/user', userRouter);
+app.use('/inv', inventoryRouter);
+app.use('/group', groupRouter);
+
+//listen on PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}.`);
 })

@@ -21,4 +21,3 @@ exports.createInventory = async (req, res) => {
         });
     }
 }
-

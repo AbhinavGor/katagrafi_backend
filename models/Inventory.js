@@ -16,6 +16,10 @@ const inventorySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    inventory_name: {
+        type: String,
+        require: true
+    }
 })
 
 const Inventory = mongoose.model("Inventory", inventorySchema);

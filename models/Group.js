@@ -16,8 +16,7 @@ const groupSchema = mongoose.Schema({
         }
     ],
     inventory_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+        type: mongoose.Schema.Types.ObjectId
     }
 });
 

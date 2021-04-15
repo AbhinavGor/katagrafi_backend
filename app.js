@@ -34,6 +34,10 @@ mongoose.connect(process.env.MONGO_URI, {
     console.log("Cannot connect to mongo!", e);
 })
 
+//basic route
+app.get("/", (req, res) => {
+    res.send("Katagrafi Backend")
+})
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}.`);
 })

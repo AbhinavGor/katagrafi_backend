@@ -7,9 +7,13 @@ const itemSchema = mongoose.Schema({
     },
     item_image: {
         type: Buffer
+        //convert to string
     },
     quantity:{
         type: Number
+    },
+    unit: {
+      type: String
     },
     item_type: {
         type: String,
@@ -25,6 +29,8 @@ const itemSchema = mongoose.Schema({
             }
         }
     ],
+
+    //expiry delete (unix timestamp)
     group_id: {
         type: mongoose.Schema.Types.ObjectId
     }

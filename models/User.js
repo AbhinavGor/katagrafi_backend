@@ -4,12 +4,15 @@ const jwt = require('jsonwebtoken');
 const { default: validator } = require('validator');
 
 const userSchema = mongoose.Schema({
+  uid: {
+    type: String
+  },
     user_name: {
         type: String,
         required: true
     },
     user_image: {
-        type: Buffer
+        type: String
     },
     email:{
         type: String,
@@ -18,7 +21,7 @@ const userSchema = mongoose.Schema({
         required: true
     },
     dob: {
-        type: Date,
+        type: String,
         required: true
     },
     allergy_triggers: {
@@ -26,6 +29,9 @@ const userSchema = mongoose.Schema({
     },
     medications: {
         type: String
+    },
+    user_type: {
+      type: Number
     },
     group_id: {
         type: mongoose.Schema.Types.ObjectId
@@ -35,11 +41,10 @@ const userSchema = mongoose.Schema({
 
 userSchema.methods.generateToken = async () => {
     const foundUser = this;
-    const token = jwt.sign({ _id: foundUser._id.toString(), userType: foundUser.userType.toString()}, process.env.SESSION_SECRET);
+    console.log(foundUser);
+    const token = jwt.sign({ _id: foundUser._id.toString(), user_type: foundUser.user_type}, process.env.SESSION_SECRET);
 
-    foundUser.tokens = foundUser.tokens.concat({ token });
-
-    await foundUser.save();
+    console.log(token);
 
     return token;
 }

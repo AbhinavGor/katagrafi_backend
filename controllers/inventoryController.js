@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 
 exports.createInventory = async (req, res) => {
     try {
-        const admin_id = req.params.admin_id;
-        const group_id = req.params.group_id
+        const admin_id = req.params.admin_id.toString();
+        const group_id = req.params.group_id.toString();
+
+        console.log({ admin_id, group_id })
+
         const { items, inventory_name } = req.body;
 
         const newInventory = new Inventory({
@@ -15,11 +18,13 @@ exports.createInventory = async (req, res) => {
         await newInventory.save();
 
         res.status(200).send({
-            "message": `New inventory, ${inventory_name} created!`
+            "message": `New inventory, ${inventory_name} created!`,
+            "new_inventory": newInventory
         });
     } catch (error) {
         res.status(500).send({
-            "message": "Error occurred while making a new inventory, please try again later!"
+            "message": "Error occurred while making a new inventory, please try again later!",
+            error: error
         });
     }
 }
@@ -37,7 +42,7 @@ exports.addItem =  async (req, res) => {
           foundInv.items.concat(foundItem._id);
       }else{
         const newItem = {
-          item_name, item_image, quantity, item_type, allergic_ingredients
+          item_name, item_image, quantity, unit, item_type, allergic_ingredients
         }
 
         await newItem.save();
@@ -59,7 +64,9 @@ exports.getInventoryItems = async (req, res) => {
 
   try {
 
-      const foundInv = await Inventory.findOne({ _id: mongoose.Schemas.Types.ObjectId(inv_id)});
+      const foundInv = await Inventory.findOne({ _id: inv_id});
+
+      console.log(foundInv);
 
       if(foundInv){
         res.status(200).send({invItems: foundInv.items});
@@ -69,6 +76,22 @@ exports.getInventoryItems = async (req, res) => {
 
   } catch (e) {
       res.status(500).send(e);
+  }
+}
+
+exports.deleteItem = async (req, res) => {
+  const { inv_id, itm_id } = req.params;
+
+  try {
+    const foundInv = await Inventory.findOne({ _id: inv_id });
+
+    for (var i in range(foundInv.items.length())){
+      console.log(foundInv.items[0]);
+    }
+
+    res.status(200).send({ "message": "Successfully deleted item.", "foundInv": foundInv});
+  } catch (e) {
+
   } finally {
 
   }

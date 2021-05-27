@@ -10,6 +10,8 @@ exports.createGroup = async (req, res) => {
             user_name: req.user.user_name
         }
 
+        console.log(req.user);
+
         const user_ids = [ user_id ]
 
         const newGroup = new Group({
